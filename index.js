@@ -1,8 +1,8 @@
 class Character
 {
-    constructor(name){
+    constructor(name,description){
         this._name = name
-        this._description = ""
+        this._description = description
         this._conversation = ""
     }
 
@@ -37,6 +37,27 @@ class Character
 
 }
 
+class Enemy extends Character {
+    constructor(name,weakness){
+        super(name,"Enemy")
+        this._weakness = weakness; 
+    }
+
+    fight(item){
+        if(item == this._weakness){
+            return true;
+            
+        } else {
+            return false;
+        }
+    }
+
+    attack(){
+        alert(this._name + " attacks you!")
+    }
+
+}
+
 class Item {
     constructor(name,description){
         this._name = name;
@@ -59,7 +80,7 @@ class Item {
     set description(value){
         this._description = value;
     }
-    
+
 }
 
 class Room {
