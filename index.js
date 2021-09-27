@@ -1,3 +1,67 @@
+class Character
+{
+    constructor(name){
+        this._name = name
+        this._description = ""
+        this._conversation = ""
+    }
+
+    get name()
+    {
+        return this._name;
+    }
+
+    set name(value){
+        this._name = value
+    }
+
+    get description()
+    {
+        return this._description;
+    }
+    set description(value){
+        this._description = value;
+    }
+
+    get conversation(){
+        return this._conversation;
+    }
+
+    set conversation(value){
+        this._conversation = value;
+    }
+
+    talk(){
+        return this._name + " says " + this._conversation;
+    }
+
+}
+
+class Item {
+    constructor(name,description){
+        this._name = name;
+        this._description = description;
+
+    }
+
+    get name(){
+        return this._name;
+    }
+
+    set name(value){
+        this._name = value;
+    }
+
+    get description(){
+        return this._description;
+    }
+
+    set description(value){
+        this._description = value;
+    }
+    
+}
+
 class Room {
 
     get name() {
@@ -19,7 +83,7 @@ class Room {
         return this.name + "-----------" + this.description
     }
 
-    set north(value){
+   /*  set north(value){
         this._north = value;
     }
 
@@ -33,7 +97,7 @@ class Room {
 
     get south(){
         return this._south;
-    }
+    } */
 
     constructor(name, description) {
 
@@ -51,6 +115,15 @@ class Room {
     {
         this._linkedRooms[direction] = room
     }
+
+    move(direction){
+        if(direction in this._linkedRooms ){
+            return this._linkedRooms[direction];
+        } else {
+            alert("You can't go that way")
+            return this;
+        }
+    }
 }
 
 
@@ -59,5 +132,28 @@ const DiningRoom = new Room("Dining Room", "This is the dining room")
 Kitchen.linkRoom("north",DiningRoom)
 DiningRoom.linkRoom("south",Kitchen)
 
-document.getElementById('game').innerHTML = Kitchen.linkedRooms["north"].describe()
+
+let currentRoom = Kitchen
+
+window.onload = () => {
+document.getElementById('game').innerHTML = currentRoom.describe()
+
+document.addEventListener("keydown",function(event){
+    if(event.key === "Enter") {
+        command = document.getElementById("command").value;
+        //direction commands
+        const directions = ["north","south","east","west"]
+        if(directions.includes (command)){
+            currentRoom = currentRoom.move(command);
+            document.getElementById('game').innerHTML = currentRoom.describe()
+        //add else ifs to add further commands later
+        } else {
+            alert("invalid command")
+        }
+
+    }
+
+})
+
+}
 
